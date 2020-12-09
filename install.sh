@@ -89,7 +89,7 @@ touch /etc/openvpn/vars
 echo ca_title\n | ovpn_initpki nopass
 
 user_target=/etc/openvpn/opvn_user_options
-mkdir $user_target -p
+mkdir \$user_target -p
 
 echo "############# generate user ################"
 opvn_user_array=(${opvn_user//,/ })
