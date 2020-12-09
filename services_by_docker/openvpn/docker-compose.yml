@@ -1,0 +1,32 @@
+version: '2.1'
+services:
+  openvpn:
+    container_name: 'openvpn'
+    image: 'kylemanna/openvpn'
+    volumes:
+      - option_data:/etc/openvpn
+    ports:
+      - 172.17.0.1:1194:1194
+    privileged: true
+    restart: always
+    env_file:
+      - .env
+  shadowsocks:
+    container_name: ssserver
+    image: shadowsocks/shadowsocks-libev
+    ports:
+      - "26000:8388/tcp"
+      - "26000:8388/udp"
+    restart: always
+    depends_on:
+      - openvpn
+    env_file:
+      - .env
+volumes:
+  option_data:
+    name: openvpn_data
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/option
+      o: bind
